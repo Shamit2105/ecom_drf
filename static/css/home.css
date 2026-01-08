@@ -1,0 +1,44 @@
+.card {
+    width: 100%;
+    aspect-ratio: 1 / 1; /* This makes the card a square */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 1px solid black; /* Add a border to distinguish items */
+    margin-bottom: 15px; /* Add some space between items */
+}
+
+.card-img-container {
+    width: 100%;
+    height: 50%; /* Adjust the height to fit within the square card */
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-img-top {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Ensure the image fits within the container without being cropped */
+}
+
+.card-body {
+    padding: 10px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.card-body .original-price {
+    text-decoration: line-through;
+    color: #888;
+    margin-right: 10px;
+}
+
+.card-body .discounted-price {
+    color: red;
+    font-weight: bold;
+    font-size: 1.2em;
+}

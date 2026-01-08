@@ -1,0 +1,93 @@
+{% extends '_base.html' %}
+{% load static %}
+
+{% block title %}
+Home
+{% endblock title %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+
+<div class="container mt-4">
+    <h1>Welcome to our store!</h1>
+    {% if user.is_authenticated %}
+        <h3>Welcome, {{ user.username }}!</h3>
+    {% else %}
+        <h3>Welcome Guest</h3>
+        Please Login or SignUp to continue.
+    {% endif %}
+    <div>
+        <h2>Filter Items</h2>
+    
+        <form method="post">
+            {% csrf_token %}
+    
+            <label for="category">Category:</label>
+            <select name="category" id="category">
+                <option value="">All</option>
+                {% for category in categories %}
+                    <option value="{{ category.name }}" {% if selected_category == category.name %}selected{% endif %}>
+                        {{ category.name }}
+                    </option>
+                {% endfor %}
+            </select>
+    
+            <label for="subcategory">Subcategory:</label>
+            <select name="subcategory" id="subcategory">
+                <option value="">All</option>
+                {% for subcategory in subcategories %}
+                    <option value="{{ subcategory.name }}" {% if selected_subcategory == subcategory.name %}selected{% endif %}>
+                        {{ subcategory.name }}
+                    </option>
+                {% endfor %}
+            </select>
+            <button type="submit">Filter</button>
+        </form>
+        <form method="GET">
+            <select name="sort_by" onchange="this.form.submit()">
+                <option value="price_asc" {% if selected_sort == "price_asc" %}selected{% endif %}>Price: Low to High</option>
+                <option value="price_desc" {% if selected_sort == "price_desc" %}selected{% endif %}>Price: High to Low</option>
+                <option value="rating_asc" {% if selected_sort == "rating_asc" %}selected{% endif %}>Rating: Low to High</option>
+                <option value="rating_desc" {% if selected_sort == "rating_desc" %}selected{% endif %}>Rating: High to Low</option>
+                <option value="rating_desc_price_asc" {% if selected_sort == "rating_desc_price_asc" %}selected{% endif %}>Rating High to Low, Price Low to High</option>
+                <option value="rating_asc_price_asc" {% if selected_sort == "rating_asc_price_asc" %}selected{% endif %}>Rating Low to High, Price Low to High</option>
+            </select>
+            
+        </form>
+        
+    </div>
+    
+    
+    
+    <div class="row">
+        {% for item in items %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-60">
+                <div class="card-img-container">
+                    <img src="{{ item.image.url }}" class="card-img-top" alt="{{ item.name }}">
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title"><a href="{% url 'product_detail' item.pk %}">{{ item.name }}</a></h5>
+                    <p class="card-text">{{ item.brand }}</p>
+                    <span class="original-price"><strike>₹{{ item.price }}</strike></span>
+                    <span class="discounted-price">₹{{ item.discounted_price }}</span>
+                    {% if user.user_type == "customer" or user.is_authenticated == False %}
+                    {% if item.stock > 0 %}
+                    <a href="{% url 'order_confirm' item.pk %}" class="btn btn-primary">Order</a>
+                    <form method="post" action="{% url 'add_to_cart' item.pk %}">
+                        {% csrf_token %}
+                        <br>
+                        <button type="submit" class="btn btn-primary">Add to Cart</button>
+                    </form>
+                    {% else %}
+                    <p class="text-danger">Out of Stock</p>
+                    {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    
+</div>
+{% endblock content %}  
