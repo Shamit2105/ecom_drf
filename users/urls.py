@@ -1,10 +1,18 @@
-from django.urls import path
-from .views import SignUpView,PasswordResetFormView,PasswordResetRequestView, PasswordChangeView
+from django.urls import path,include
+from rest_framework.routers import DefaultRouter
+from rest_framework_simplejwt.views import TokenVerifyView,TokenRefreshView
 
-urlpatterns = [
-    path('signup/', SignUpView.as_view(), name='signup'),
-    path('password_change/<int:user_id>/', PasswordChangeView.as_view(), name='password_change'),
-    path('password_reset/', PasswordResetRequestView.as_view(), name='password_reset_request'),
-    path('password_reset/<int:user_id>/', PasswordResetFormView.as_view(), name='password_reset_form'),
+from .views import UserTypeView,SecurityQuestionsView,UserLoginView,UserSignUpView
 
+router=DefaultRouter()
+
+router.register("security_questions",SecurityQuestionsView,basename='security_questions')
+router.register("user_type",UserTypeView,basename='user_type')
+
+urlpatterns=[
+    path('signup/',UserSignUpView.as_view(),name='user_signup'),
+    path('login/',UserLoginView.as_view(),name='user_login'),
+    path('token_verify/',TokenVerifyView.as_view(),name='token_verify'),
+    path('token_refresh/',TokenRefreshView.as_view(),name='token_refresh'),
+    path('users/',include(router.urls))
 ]

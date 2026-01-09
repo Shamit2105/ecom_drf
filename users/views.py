@@ -1,4 +1,5 @@
-from rest_framework.viewsets import ModelViewSet
+from rest_framework import viewsets
+from rest_framework.views import APIView
 from rest_framework.exceptions import ValidationError
 from rest_framework import generics,permissions,status
 from rest_framework.response import Response
@@ -56,4 +57,18 @@ class UserSignUpView(generics.CreateAPIView):
 class UserLoginView(TokenObtainPairView):
     permission_classes=[permissions.AllowAny]
     serializer_class = TokenObtainPairSerializer
+
+class SecurityQuestionsView(APIView):
+    def get(self,request):
+        return Response([
+            {"key":k,"label":l} for k,l in CustomUser.questions
+        ])
+
+class UserTypeView(APIView):
+    def get(self,request):
+        return Response([
+            {"key":k,"label":l} for k,l in CustomUser.user_type
+        ])
+
+
 

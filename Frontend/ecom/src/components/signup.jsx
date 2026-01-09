@@ -10,6 +10,8 @@ function SignUp()
             first_name:"",
             last_name:"",
             phone_no:"",
+            security_question:"",
+            
             
         }
     )
