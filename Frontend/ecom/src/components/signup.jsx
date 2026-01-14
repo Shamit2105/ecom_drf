@@ -11,10 +11,13 @@ function SignUp()
             last_name:"",
             phone_no:"",
             security_question:"",
-            
-            
+            security_answer:"",
+            user_type:"",
         }
-    )
+    );
+    useEffect(()=>{
+        axios.get("http://localhost:8000/users/security_questions/").then(res)
+    },[])
 }
 
 export default SignUp

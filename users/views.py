@@ -58,13 +58,15 @@ class UserLoginView(TokenObtainPairView):
     permission_classes=[permissions.AllowAny]
     serializer_class = TokenObtainPairSerializer
 
-class SecurityQuestionsView(APIView):
+class SecurityQuestionsView(viewsets.ViewSet):
+    permission_classes=[permissions.AllowAny]
     def get(self,request):
         return Response([
             {"key":k,"label":l} for k,l in CustomUser.questions
         ])
 
-class UserTypeView(APIView):
+class UserTypeView(viewsets.ViewSet):
+    permission_classes=[permissions.AllowAny]
     def get(self,request):
         return Response([
             {"key":k,"label":l} for k,l in CustomUser.user_type
