@@ -60,16 +60,16 @@ class UserLoginView(TokenObtainPairView):
 
 class SecurityQuestionsView(viewsets.ViewSet):
     permission_classes=[permissions.AllowAny]
-    def get(self,request):
+    def list(self,request):
         return Response([
             {"key":k,"label":l} for k,l in CustomUser.questions
         ])
 
 class UserTypeView(viewsets.ViewSet):
     permission_classes=[permissions.AllowAny]
-    def get(self,request):
+    def list(self,request):
         return Response([
-            {"key":k,"label":l} for k,l in CustomUser.user_type
+            {"key":k,"label":l} for k,l in CustomUser.types
         ])
 
 

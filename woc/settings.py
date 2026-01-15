@@ -40,6 +40,8 @@ INSTALLED_APPS = [
 
     #external
     'drf_spectacular',
+    'corsheaders',
+    'rest_framework',
 
     # STARTAPPS
     'users',
@@ -50,6 +52,7 @@ AUTH_USER_MODEL = 'users.CustomUser'
 
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -60,6 +63,33 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'woc.urls'
+
+
+ALLOWED_HOSTS = [
+    "localhost",
+    "127.0.0.1",
+]
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+]
+
+CORS_ALLOW_HEADERS = [
+    "content-type",
+    "authorization",
+    "x-csrftoken",
+]
+
+CORS_ALLOW_METHODS = [
+    "GET",
+    "POST",
+    "PUT",
+    "PATCH",
+    "DELETE",
+    "OPTIONS",
+]
+
+
 
 TEMPLATES = [
     {
@@ -121,8 +151,7 @@ REST_FRAMEWORK={
     "DEFAULT_SCHEMA_CLASS":"drf_spectacular.openapi.AutoSchema",
 }
 
-LOGIN_REDIRECT_URL = 'home'
-LOGOUT_REDIRECT_URL = 'home'
+
 
 
 
